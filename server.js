@@ -2,7 +2,7 @@ const express = require('express');
 const { Sequelize, DataTypes} = require('sequelize');
 
 const sequelize = new Sequelize('gymbuddy', 'user', 'password', {
-    host: 'localhost',
+    host: 'db',
     dialect: 'postgres'
   });
 
@@ -26,6 +26,15 @@ const sequelize = new Sequelize('gymbuddy', 'user', 'password', {
     }
   }, {
     // Other model options go here
+  });
+
+// Sync the model with the database
+sequelize.sync()
+  .then(() => {
+    console.log('Exercise table synced successfully.');
+  })
+  .catch(err => {
+    console.error('Error syncing Exercise table:', err);
   });
 
 const app = express();
