@@ -30,14 +30,33 @@ const Exercise = sequelize.define('Exercise', {
     // Other model options go here
 });
 
-// Sync the model with the database
-sequelize.sync()
-  .then(() => {
-    console.log('Exercise table synced successfully.');
-  })
-  .catch(err => {
-    console.error('Error syncing Exercise table:', err);
+
+// Define the User model
+const User = sequelize.define('User', {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   });
+  
+// Sync all models with the database
+sequelize.sync()
+    .then(() => {
+        console.log('All models synced successfully.');
+    })
+    .catch(err => {
+        console.error('Error syncing models:', err);
+    });
 
 // Express app initialization
 const app = express();
