@@ -1,12 +1,14 @@
 const express = require('express');
 const { Sequelize, DataTypes} = require('sequelize');
 
+// Sequelize configuration
 const sequelize = new Sequelize('gymbuddy', 'user', 'password', {
     host: 'db',
     dialect: 'postgres'
   });
 
-  const Exercise = sequelize.define('Exercise', {
+// Define Exercise model
+const Exercise = sequelize.define('Exercise', {
     // Model attributes are defined here
     muscleGroup: {
         type: DataTypes.STRING,
@@ -24,9 +26,9 @@ const sequelize = new Sequelize('gymbuddy', 'user', 'password', {
         type: DataTypes.STRING,
         allowNull: false
     }
-  }, {
+}, {
     // Other model options go here
-  });
+});
 
 // Sync the model with the database
 sequelize.sync()
@@ -37,7 +39,10 @@ sequelize.sync()
     console.error('Error syncing Exercise table:', err);
   });
 
+// Express app initialization
 const app = express();
+
+// Example data for exercises
 const exercises = [{
     "muscleGroup": "arms",
     "exercise": "curls",
@@ -74,14 +79,19 @@ const exercises = [{
     "link": "youtube.com",
     "description": "one day you will have a 6 pack i promise"
 }]
+
+// Routes----------------
+
 app.get('/', (req, res) => {
     res.send({"message": "hello, world"});
   });
 
+  // Route to get exercises based on muscle group
 app.get('/:muscleGroup', (req, res) => {
     const muscleGroup = req.params.muscleGroup
     const exercisesForMuscleGroup = exercises.filter(e => e.muscleGroup.toLowerCase() === muscleGroup.toLowerCase())
     res.send(exercisesForMuscleGroup);
 })
 
+// Start the server
 app.listen(3000, () => console.log('Example app is listening on port 3000.'));
