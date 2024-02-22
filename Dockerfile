@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install any needed packages
 RUN npm install
+RUN npm install -g nodemon
 
 # Bundle app source
 COPY . .
@@ -17,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # Define the command to run your app
-CMD ["node", "server.js"]
+CMD ["nodemon", "server.js"]
